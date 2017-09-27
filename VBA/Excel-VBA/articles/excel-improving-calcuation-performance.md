@@ -491,13 +491,10 @@ The drill-down approach starts by timing the calculation of the workbook, the ca
     
 11. For each problem worksheet, divide the columns or rows into a small number of blocks.
     
-  
 12. Select each block in turn, and then run the **RangeTimer** macro on the block.
     
-  
 13. If necessary, drill down further by subdividing each block into a smaller number of blocks.
     
-  
 14. Prioritize the obstructions.
 
 ### Speeding up calculations and reducing obstructions
@@ -511,243 +508,139 @@ Avoid complex mega-formulas and array formulas. In general, it is better to have
 #### First rule: Remove duplicated, repeated, and unnecessary calculations
 
 Look for duplicated, repeated, and unnecessary calculations, and figure out approximately how many cell references and calculations are required for Excel to calculate the result for this obstruction. Then think how you might obtain the same result with fewer references and calculations.
-  
-    
-    
+
 Usually this involves one or more of the following steps:
-  
-    
-    
 
 - Reduce the number of references in each formula. 
-    
-  
-- Move the repeated calculations to one or more helper cells, and then reference the helper cells from the original formulas.
-    
-  
-- Use additional rows and columns to calculate and store intermediate results once so that you can reuse them in other formulas.
-    
-  
 
-#### Second Rule: Use the Most Efficient Function Possible
+- Move the repeated calculations to one or more helper cells, and then reference the helper cells from the original formulas.
+
+- Use additional rows and columns to calculate and store intermediate results once so that you can reuse them in other formulas.
+
+#### Second rule: Use the most efficient function possible
 
 When you find an obstruction that involves a function or array formulas, determine whether there is a more efficient way to achieve the same result. For example: 
-  
-    
-    
 
 - Lookups on sorted data can be tens or hundreds of times more efficient than lookups on unsorted data.
-    
-  
-- VBA user-defined functions are usually slower than the built-in functions in Excel (although carefully written VBA functions can be fast).
-    
-  
-- Minimize the number of used cells in functions like **SUM** and **SUMIF**. Calculation time is proportional to the number of used cells (unused cells are ignored).
-    
-  
-- Consider replacing slow array formulas with user-defined functions.
-    
-  
 
-#### Third Rule: Make Good Use of Smart Recalculation
+- VBA user-defined functions are usually slower than the built-in functions in Excel (although carefully written VBA functions can be fast).
+
+- Minimize the number of used cells in functions like **SUM** and **SUMIF**. Calculation time is proportional to the number of used cells (unused cells are ignored).
+
+- Consider replacing slow array formulas with user-defined functions.
+
+#### Third rule: Make good use of smart recalculation
 
 The better use you make of smart recalculation in Excel, the less processing has to be done every time that Excel recalculates, so:
-  
-    
-    
 
 - Avoid volatile functions like **INDIRECT** and **OFFSET** where you can, unless they are significantly more efficient than the alternatives. (Well-designed use of **OFFSET** is often fast.)
-    
-  
-- Minimize the size of the ranges that you are using in array formulas and functions.
-    
-  
-- Break array formulas and mega-formulas out into separate helper columns and rows.
-    
-  
 
-#### Fourth Rule: Time and Test Each Change
+- Minimize the size of the ranges that you are using in array formulas and functions.
+
+- Break array formulas and mega-formulas out into separate helper columns and rows.
+
+#### Fourth rule: Time and test each change
 
 Some of the changes that you make might surprise you, either by not giving the answer that you thought they would, or by calculating more slowly than you expected. Therefore, you should time and test each change, as follows:
-  
-    
-    
 
 1. Time the formula that you want to change by using the **RangeTimer** macro.
-    
-  
-2. Make the change.
-    
-  
-3. Time the changed formula by using the **RangeTimer** macro.
-    
-  
-4. Check that the changed formula still gives the correct answer. 
-    
-  
 
-### Rule Examples
+2. Make the change.
+
+3. Time the changed formula by using the **RangeTimer** macro.
+
+4. Check that the changed formula still gives the correct answer. 
+
+### Rule examples
 
 The following sections provide examples of how to use the rules to speed up calculation.
-  
-    
-    
 
-#### Period-to-Date Sums
+#### Period-to-date sums
 
 For example, you need to calculate the period-to-date sums of a column that contains 2000 numbers. Assume that column A contains the numbers, and that column B and column C should contain the period-to-date totals.
-  
-    
-    
+
 You could write the formula using **SUM**, which is an efficient function.
-  
-    
-    
-
-
 
 ```
-
 B1=SUM($A$1:$A1)
 B2=SUM($A$1:$A2)
 ```
 
+*Figure 6. Example of period-to-date SUM formulas*
 
-**Figure 6. Example of period-to-date SUM formulas**
-
-  
-    
-    
-
-  
-    
-    
 ![Period to date sum formula example](images/ocd_xl2010_ta_improvingcalculationperf_fig06.jpg)
-  
-    
-    
+ 
 Then copy the formula down to B2000.
-  
-    
-    
+ 
 How many cell references are added up by **SUM** in total? B1 refers to one cell, and B2000 refers to 2000 cells. The average is 1000 references per cell, so the total number of references is 2 million. Selecting the 2000 formulas and using the **RangeTimer** macro shows you that the 2000 formulas in column B calculate in 80 milliseconds. Most of these calculations are duplicated many times: **SUM** adds A1 to A2 in each formula from B2:B2000.
-  
-    
-    
+
 You can eliminate this duplication if you write the formulas as follows.
-  
-    
-    
-
-
 
 ```
-
 C1=A1
 C2=C1+A1
 ```
 
 Then copy this formula down to C2000.
   
-    
-    
 Now how many cell references are added up in total? Each formula, except the first formula, uses two cell references. Therefore, the total is 1999*2+1=3999. This is a factor of 500 fewer cell references. 
-  
-    
-    
- **RangeTimer** indicates that the 2000 formulas in column C calculate in 3.7 milliseconds compared to the 80 milliseconds for column B. This change has a performance improvement factor of only 80/3.7=22 instead of 500 because there is a small overhead per formula.
-  
-    
-    
+ 
+**RangeTimer** indicates that the 2000 formulas in column C calculate in 3.7 milliseconds compared to the 80 milliseconds for column B. This change has a performance improvement factor of only 80/3.7=22 instead of 500 because there is a small overhead per formula.
 
-#### Error Handling
+#### Error handling
 
 If you have a calculation-intensive formula where you want the result to be shown as zero if there is an error (this frequently occurs with exact match lookups), you can write this in several ways.
-  
-    
-    
 
 - You can write it as a single formula, which is slow:
     
   ```
-  
-B1=IF(ISERROR(time expensive formula),0,time expensive formula)
+   B1=IF(ISERROR(time expensive formula),0,time expensive formula)
   ```
 
 - You can write it as two formulas, which is fast:
     
   ```
-  A1=time expensive formula
-B1=IF(ISERROR(A1),0,A1)
+   A1=time expensive formula
+   B1=IF(ISERROR(A1),0,A1)
   ```
 
 - Starting in Excel 2007, you can use the **IFERROR** function, which is designed to be fast and simple, and it is a single formula:
     
   ```
-  
-B1=IFERROR(time expensive formula,0)
+   B1=IFERROR(time expensive formula,0)
   ```
 
+#### Dynamic count unique
 
-#### Dynamic Count Unique
+*Figure 7. Example list of data for Count Unique*
 
-
-**Figure 7. Example list of data for Count Unique**
-
-  
-    
-    
-
-  
-    
-    
 ![Count unique data example](images/ocd_xl2010_ta_improvingcalculationperf_fig07.jpg)
-  
-    
-    
-If you have a list of 11,000 rows of data in column A, which frequently changes, and you need a formula that dynamically calculates the number of unique items in the list, ignoring blanks, here are several possible solutions.
-  
-    
-    
 
-#### Array Formulas
+If you have a list of 11,000 rows of data in column A, which frequently changes, and you need a formula that dynamically calculates the number of unique items in the list, ignoring blanks, here are several possible solutions.
+
+#### Array formulas
 
 You can do it with the following array formula (use CTRL+SHIFT+ENTER).
-  
-    
-    
 
 ```
 {=SUM(IF(LEN(A2:A11000)>0,1/COUNTIF(A2:A11000,A2:A11000)))}
 ```
 
- **RangeTimer** indicates that this takes 13.8 seconds.
-  
-    
-    
+**RangeTimer** indicates that this takes 13.8 seconds.
 
 #### SUMPRODUCT
 
- **SUMPRODUCT** usually calculates faster than an equivalent array formula.
-  
-    
-    
+**SUMPRODUCT** usually calculates faster than an equivalent array formula.
 
 ```
 =SUMPRODUCT((A2:A11000<>"")/COUNTIF(A2:A11000,A2:A11000&amp;""))
 ```
 
 This formula takes 10.0 seconds. This gives an improvement factor of 13.8/10.0=1.38, which is better, but not good enough.
-  
-    
-    
 
-#### User-Defined Functions
+#### User-defined functions
 
-The following code example shows a VBA user-defined function that uses the fact that the index to a collection must be unique. For an explanation of some techniques that are used, see the section about user-defined functions in the Using Functions Efficiently section in  [Excel Performance: Tips for Optimizing Performance Obstructions](excel-tips-for-optimizing-performance-obstructions.md).
-  
-    
-    
+The following code example shows a VBA user-defined function that uses the fact that the index to a collection must be unique. For an explanation of some techniques that are used, see the section about user-defined functions in the Using Functions Efficiently section in [Excel Performance: Tips for Optimizing Performance Obstructions](excel-tips-for-optimizing-performance-obstructions.md).
 
 ```
 Public Function COUNTU(theRange As Range) As Variant
@@ -773,94 +666,56 @@ Public Function COUNTU(theRange As Range) As Variant
 End Function
 ```
 
-This formula,  `=COUNTU(A2:A11000)`, takes only 0.061 seconds. This gives an improvement factor of 13.8/0.061=226.
-  
-    
-    
+<br/>
 
-#### Adding a Column of Formulas
+This formula,  `=COUNTU(A2:A11000)`, takes only 0.061 seconds. This gives an improvement factor of 13.8/0.061=226.
+
+#### Adding a column of formulas
 
 If you look at the previous sample of the data, you can see that it is sorted (Excel takes 0.5 seconds to sort the 11,000 rows). You can exploit this by adding a column of formulas that checks if the data in this row is the same as the data in the previous row. If it is different, the formula returns 1. Otherwise, it returns 0. 
-  
-    
-    
+
 Add this formula to cell B2.
-  
-    
-    
-
-
 
 ```
-
 =IF(AND(A2<>"",A2<>A1),1,0)
 ```
 
 Then copy the formula down. Then add a formula to add up column B.
-  
-    
-    
-
-
 
 ```
 =SUM(B2:B11000)
 ```
 
 A full calculation of all these formulas takes 0.027 seconds. This gives an improvement factor of 13.8/0.027=511.
-  
-    
-    
 
 ## Conclusion
 <a name="office2007excelperf_Conclusion"> </a>
 
 Excel 2010 enables you to effectively manage much larger worksheets, and it provides significant improvements in calculation speed. When you create large worksheets, it is easy to build them in a way that causes them to calculate slowly. Slow-calculating worksheets increase errors because users find it difficult to maintain concentration while calculation is occurring.
-  
-    
-    
-By using a straightforward set of techniques, you can speed up most slow-calculating worksheets by a factor of 10 or 100. You can also apply these techniques as you design and create worksheets to ensure that they calculate quickly.
-  
-    
-    
 
-## About the Authors
+By using a straightforward set of techniques, you can speed up most slow-calculating worksheets by a factor of 10 or 100. You can also apply these techniques as you design and create worksheets to ensure that they calculate quickly.
+
+## About the authors
 <a name="xlAboutAuthor"> </a>
 
 Charles Williams founded Decision Models in 1996 to provide advanced consultancy, decision support solutions, and tools that are based on Microsoft Excel and relational databases. Charles is the author of FastExcel, the widely used Excel performance profiler and performance tool set, and co-author of Name Manager, the popular utility for managing defined names. For more information about Excel calculation performance and methods, memory usage, and VBA user-defined functions, visit the  [Decision Models](http://www.decisionmodels.com/) website.
-  
-    
-    
-This technical article was produced in partnership with  [A23 Consulting](http://www.a23consulting.com/).
-  
-    
-    
-Allison Bokone, Microsoft Corporation, is a programming writer in the Office team.
-  
-    
-    
-Chad Rothschiller, Microsoft Corporation, is a program manager in the Office team.
-  
-    
-    
 
-## Additional Resources
+This technical article was produced in partnership with  [A23 Consulting](http://www.a23consulting.com/).
+
+Allison Bokone, Microsoft Corporation, is a programming writer on the Office team.
+
+Chad Rothschiller, Microsoft Corporation, is a program manager on the Office team.
+
+## Additional resources
 <a name="office2007excelperf_AdditionalResources"> </a>
 
 For more information about Excel 2010, see the following resources:
-  
-    
-    
 
 -  [Excel Performance: Performance and Limit Improvements](excel-performance-and-limit-improvements.md)
-    
-  
+      
 -  [Excel Performance: Tips for Optimizing Performance Obstructions](excel-tips-for-optimizing-performance-obstructions.md)
     
-  
 -  [Excel Developer Portal](http://msdn.microsoft.com/en-us/office/aa905411.aspx)
     
-  
 -  [Blog: Microsoft Excel 2010](http://blogs.msdn.com/excel/default.aspx)
     
-  
