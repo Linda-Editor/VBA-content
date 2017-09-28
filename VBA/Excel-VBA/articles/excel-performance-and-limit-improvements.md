@@ -38,7 +38,7 @@ Based on user feedback about Excel 2007, Excel 2010 introduces improvements to s
   
 ### Large data sets and 64-bit Excel
 
-The 64-bit version of Excel 2010 is not constrained to 2 GB of RAM like 32-bit applications. Therefore, 64-bit Excel 2010 enables users to create much larger workbooks. 64-bit Windows enables a larger addressable memory capacity, and 64-bit Excel is designed to take advantage of that capacity. For example, users are able to fill more of the grid with data than was possible in previous versions of Excel. As more RAM is added to the computer, Excel uses that additional memory, allows larger and larger workbooks, and scales with the amount of RAM available.
+The 64-bit version of Excel 2010 is not constrained to 2 GB of RAM like 32-bit applications. Therefore, 64-bit Excel 2010 enables users to create much larger workbooks. 64-bit Windows enables a larger addressable memory capacity, and 64-bit Excel is designed to take advantage of that capacity. For example, users can fill more of the grid with data than was possible in previous versions of Excel. As more RAM is added to the computer, Excel uses that additional memory, allows larger and larger workbooks, and scales with the amount of RAM available.
  
 In addition, because 64-bit Excel enables larger data sets, both 32-bit and 64-bit Excel 2010 introduce improvements to common large data set tasks such as entering and filling down data, sorting, filtering, and copying and pasting data. Memory usage is also optimized to be more efficient, in both the 32-bit and 64-bit versions of Excel. 
  
@@ -182,7 +182,7 @@ Starting in Excel 2007, Excel has three new functions that you can use to **SUM*
        [,criteria_range2, criteria2...])
 ```
 
-These functions handle full column references ($A:$A) efficiently by using special handling for the empty cells. The criteria that evaluates text cells can use the wildcard characters (* - any set of characters and ? - any single character). Because these functions are so much faster to calculate than equivalent array formulas, use them to replace your array formulas when possible.
+These functions handle full column references ($A:$A) efficiently by using special handling for the empty cells. The criteria that evaluates text cells can use the wildcard characters "*" (any set of characters) and "?" (any single character). Because these functions are so much faster to calculate than equivalent array formulas, use them to replace your array formulas when possible.
 
 ### IFERROR
 <a name="MultithreadedCalculation"> </a>
@@ -220,7 +220,7 @@ If you currently use array formulas, try to use structured references wherever p
 
 Starting in Excel 2007, all user-defined functions, regardless of the language and add-in method that was used to develop them, can now support the increased limits introduced in Excel 2007. This includes the number of function arguments and the "Big Grid." Fully supporting the "Big Grid" may require changes to your user-defined functions wherever your code assumes a maximum of 256 columns or 65,536 rows, plus changes to XLLs may be required to support the new Excel C API.
 
-The only kind of user-defined functions that are able to take advantage of multithreaded calculations are XLLs. By updating your XLL functions for multithreaded recalculation, you can enable your XLL to be run at the same time on different threads. All other user-defined functions (VBA, Automation add-ins, XLM functions, and XLLs not updated to work on multiple threads) are always run on the main thread, and so execute only one at a time regardless of how many processors or threads are used.
+The only kind of user-defined functions that can take advantage of multithreaded calculations are XLLs. By updating your XLL functions for multithreaded recalculation, you can enable your XLL to be run at the same time on different threads. All other user-defined functions (VBA, Automation add-ins, XLM functions, and XLLs not updated to work on multiple threads) are always run on the main thread, and so execute only one at a time regardless of how many processors or threads are used.
 
 Starting in Excel 2007, Excel has an updated C API to provide support for the following features:
 
