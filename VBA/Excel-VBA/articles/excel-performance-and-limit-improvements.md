@@ -1,9 +1,9 @@
 
 # Excel performance: Performance and limit improvements
 
-**Summary:** This article discusses performance improvements in Microsoft Excel 2010 and Microsoft Office Excel 2007. This article is one of three companion articles about techniques that you can use to improve performance in Excel as you design and create worksheets.For more information about how to improve performance in Excel, see  [Excel Performance: Improving Calculation Performance](excel-improving-calcuation-performance.md) and [Excel Performance: Tips for Optimizing Performance Obstructions](excel-tips-for-optimizing-performance-obstructions.md).
+**Summary:** This article discusses performance improvements in Microsoft Excel 2010 and Microsoft Office Excel 2007. This article is one of three companion articles about techniques that you can use to improve performance in Excel as you design and create worksheets. For more information about how to improve performance in Excel, see [Excel Performance: Improving Calculation Performance](excel-improving-calcuation-performance.md) and [Excel Performance: Tips for Optimizing Performance Obstructions](excel-tips-for-optimizing-performance-obstructions.md).
 
-**Applies to:** Excel | Excel 2010 | Office 2010 | SharePoint Server 2010 | VBA
+**Applies to:** Excel | Excel 2010 | Excel 2007 | Office 2010 | SharePoint Server 2010 | VBA
 
 **In this article**
 
@@ -17,7 +17,7 @@
 
 - [Additional resources](#office2007excelperf_AdditionalResources)
 
-**Provided by:** ![MVP Contributor](images/mvp.jpg) Charles Williams,  [Decision Models Limited](http://www.decisionmodels.com/) │ Allison Bokone, Microsoft Corporation │ Chad Rothschiller, Microsoft Corporation │ [About the Authors](excel-improving-calcuation-performance.md#xlAboutAuthor)
+**Provided by:** ![MVP Contributor](images/mvp.jpg) Charles Williams, [Decision Models Limited](http://www.decisionmodels.com/) │ Allison Bokone, Microsoft Corporation │ Chad Rothschiller, Microsoft Corporation │ [About the authors](excel-improving-calcuation-performance.md#xlAboutAuthor)
 
 ## Excel 2010 performance improvements
 <a name="xl2010PerfImp"> </a>
@@ -42,18 +42,22 @@ The 64-bit version of Excel 2010 is not constrained to 2 GB of RAM like 32-bit a
  
 In addition, because 64-bit Excel enables larger data sets, both 32-bit and 64-bit Excel 2010 introduce improvements to common large data set tasks such as entering and filling down data, sorting, filtering, and copying and pasting data. Memory usage is also optimized to be more efficient, in both the 32-bit and 64-bit versions of Excel. 
  
-For more information about the "Big Grid," see  [The "Big Grid" and Increased Limits in Excel 2007](28d47a27-06c3-4ac0-ae9b-18de73624669.md#Office2007excelPerf_BigGridIncreasedLimitsExcel). For more information about the 64-bit version of Office 2010, see  [Compatibility Between the 32-bit and 64-bit Versions of Office 2010](http://msdn.microsoft.com/library/24acd0f0-1d3a-435e-8b76-44820648ab54%28Office.14%29.aspx).
+For more information about the "Big Grid," see [The "Big Grid" and Increased Limits in Excel 2007](https://msdn.microsoft.com/en-us/library/aa730921(v=office.12).aspx#Office2007excelPerf_BigGridIncreasedLimitsExcel). For more information about the 64-bit version of Office 2010, see  [Compatibility Between the 32-bit and 64-bit Versions of Office 2010](http://msdn.microsoft.com/library/24acd0f0-1d3a-435e-8b76-44820648ab54%28Office.14%29.aspx).
 
 ### Shapes
 <a name="Shapes"> </a>
 
-Excel 2010 introduces significant improvements in the performance of graphics in Excel. At a high level, these improvements are in two areas: scalability and rendering. The scalability improvements have a large impact in Excel scenarios because of the large number of graphics contained on worksheets. Often, this large number of shapes is created accidentally by copying and pasting data from a website, or by commonly run automation that creates shapes, but never removes them. This large number of graphics, combined with the way that graphics relate to the data grid in Excel, presents several unique performance challenges. Improvements in Excel 2010 increase the performance speed for worksheets that contain many shapes. In addition, support for hardware acceleration improves rendering starting in Excel 2010. Excel 2010 also introduces performance improvements to the **Select** method of the **Shape** object in the VBA object model.
+Excel 2010 introduces significant improvements in the performance of graphics in Excel. At a high level, these improvements are in two areas: scalability and rendering. 
+
+The scalability improvements have a large impact in Excel scenarios because of the large number of graphics contained on worksheets. Often, this large number of shapes is created accidentally by copying and pasting data from a website, or by commonly run automation that creates shapes, but never removes them. This large number of graphics, combined with the way that graphics relate to the data grid in Excel, presents several unique performance challenges. Improvements in Excel 2010 increase the performance speed for worksheets that contain many shapes. 
+
+In addition, starting in Excel 2010, support for hardware acceleration improves rendering. Excel 2010 also introduces performance improvements to the **Select** method of the **Shape** object in the VBA object model.
 
 |**Feature**|**Improvement**|
 |:-----|:-----|
 |**Basic Use** <br/> |The first set of improvements made in Excel 2010 surrounds basic use scenarios. These scenarios include operations and features such as sorting, filtering, inserting or resizing rows or columns, or merging cells. When these operations occur, it may be necessary to update the position of a graphic object on the grid. In the worst-case scenario, it is necessary to make an update to every single object on the worksheet. In Excel 2010, performance of these basic scenarios improves even when there are thousands of objects on the worksheet. These improvements were not achieved with a single feature or fix, but through a dedicated focus on performance that included improving the shape lookup mechanism, testing stress files, and investigating obstructions.  <br/> |
 |**Text Links** <br/> |A text link on a shape is created when the user specifies a formula, for example "=A1", that defines the text for a given shape. These particular shapes were prone to cause performance issues on sheets with a large number of objects and/or when changes were made to cell content. Starting in Excel 2010, the way Excel tracks and updates these shapes has improved to optimize performance for changing cell content. This work improves scenarios such as typing a new value in a cell or performing complex object model operations.  <br/> |
-|**Big Grid** <br/> |Starting in Excel 2007, the size of the grid expanded from 65,000 rows to over one million rows. This increase caused some performance and rendering issues when working with graphics objects in the new regions of the larger grid. Starting in Excel 2010, Excel optimizes functionality that relies on using the top left of the grid as the origin in order to improve the experience of working with graphics in the new regions of the grid. Rendering fidelity and performance are improved relative to Excel 2007.  <br/> |
+|**Big Grid** <br/> |Starting in Excel 2007, the size of the grid expanded from 65,000 rows to over one million rows. This increase caused some performance and rendering issues when working with graphics objects in the new regions of the larger grid. Starting in Excel 2010, Excel optimizes functionality that relies on using the top left of the grid as the origin to improve the experience of working with graphics in the new regions of the grid. Rendering fidelity and performance are improved relative to Excel 2007.  <br/> |
 |**Rendering: Hardware Acceleration** <br/> |Starting in Excel 2010, improvements were made to the graphics platform by adding support for hardware acceleration when rendering 3-D objects. While the GPU can render these objects faster than the CPU, the experience in Excel 2010 depends on the content on your worksheet. If you have a sheet full of 3-D shapes, you will see more benefit from the hardware acceleration improvements than on a worksheet with only 2-D shapes (which do not leverage the GPU).  <br/> |
    
 <br/>
@@ -68,7 +72,7 @@ Starting in Excel 2007, multithreaded calculation improved calculation performan
 
 Additional investments were made to take advantage of multi-core processors and increase performance for routine tasks. Starting in Excel 2010, the following features use multi-core processors: saving a file, opening a file, refreshing a PivotTable (for external data sources, except OLAP and SharePoint), sorting a cell table, sorting a PivotTable, and auto-sizing a column.
 
-For operations that involve reading and loading or writing data, such as opening a file, saving a file or refreshing data, splitting the operation into two processes increases performance speed. The first process gets the data, and the second process loads the data into the appropriate structure in memory or writes the data to a file. In this way, as soon as the first process beings reading a portion of data, the second process can immediately start loading or writing that data, while the first process continues to read the next portion of data. Previously, the first process had to finish reading all the data in a certain section before the second process could load that section of the data into memory or write the data to a file.
+For operations that involve reading and loading or writing data, such as opening a file, saving a file or refreshing data, splitting the operation into two processes increases performance speed. The first process gets the data, and the second process loads the data into the appropriate structure in memory or writes the data to a file. In this way, as soon as the first process begins reading a portion of data, the second process can immediately start loading or writing that data, while the first process continues to read the next portion of data. Previously, the first process had to finish reading all the data in a certain section before the second process could load that section of the data into memory or write the data to a file.
 
 ### PowerPivot
 <a name="Shapes"> </a>
@@ -84,7 +88,7 @@ For more information about PowerPivot, see  [PowerPivot Overview](http://msdn.mi
 
 With a wealth of statistical analysis functions, support for constructing complex analyses, and broad extensibility, Excel 2010 is the tool of choice for analyzing business data. As models grow larger and workbooks become more complex, the value of the information generated increases. However, more complex workbooks also require more time to calculate. For complex analyses, it is common for users to spend hours, days, or even weeks completing such complex workbooks.
 
-One solution is to use Windows HPC Server 2008 to scale out Excel calculations across multiple nodes in a Windows high-performance computing (HPC) cluster in parallel. There are three methods for running Excel 2010 calculations in a Windows HPC Server 2008 based cluster: running Excel workbooks in a cluster, running Excel user-defined functions (UDFs) in a cluster, and using Excel as a cluster service-oriented architecture (SOA) client. For more information about HPC Services for Excel 2010, see  [Accelerating Excel 2010 with Windows HPC Server 2008](http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=a48ac6fe-7ea0-4314-97c7-d6875bc895c5)
+One solution is to use Windows HPC Server 2008 to scale out Excel calculations across multiple nodes in a Windows high-performance computing (HPC) cluster in parallel. There are three methods for running Excel 2010 calculations in a Windows HPC Server 2008-based cluster: running Excel workbooks in a cluster, running Excel user-defined functions (UDFs) in a cluster, and using Excel as a cluster service-oriented architecture (SOA) client. For more information about HPC Services for Excel 2010, see  [Accelerating Excel 2010 with Windows HPC Server 2008](http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=a48ac6fe-7ea0-4314-97c7-d6875bc895c5)
 
 ## Excel 2007 performance improvements
 <a name="office2007excelperf_ExcelPerformanceImprovements"> </a>
@@ -131,13 +135,13 @@ Results showed calculation times ranging from no improvement to better than theo
 
 Some Excel features do not use multithreaded calculation. For example:
 
-- Data table calculation (however, structured references to tables do use MTC).
-- User-defined functions (however, XLL functions can be multithread-enabled).
-- XLM functions.
-- INDIRECT, CELL functions that use either the **format2** or **address** options.
-- GETPIVOTDATA and other functions referring to PivotTables or cubes.
-- **Range.Calculate** and **Range.CalculateRowMajorOrder**.
-- Cells in circular reference loops.
+- Data table calculation (however, structured references to tables do use MTC)
+- User-defined functions (however, XLL functions can be multithread-enabled)
+- XLM functions
+- INDIRECT, CELL functions that use either the **format2** or **address** options
+- GETPIVOTDATA and other functions referring to PivotTables or cubes
+- **Range.Calculate** and **Range.CalculateRowMajorOrder**
+- Cells in circular reference loops
     
 The first time that Excel calculates a workbook on a computer that has multiple processors, you incur some overhead while Excel examines dependencies. Therefore, you can see the maximum performance increase on the second and successive calculations (although there is still usually improvement on the first calculation versus running the same task on the same speed of computer that has a single processor).
 
@@ -149,7 +153,7 @@ You also incur this overhead the first time that you calculate a workbook on a m
 
 You can manually specify the number of threads to run at the same time. This number can be more than the number of processors on the computer. This is useful if, for example, you have XLL user-defined functions dependent on long-running external calls to a database server. If the database server can process multiple requests in parallel, you can effectively use multithreading even on a single-processor system.
  
-To control multithreaded calculation options, click the **File** tab, and then click **Options**. In the **Excel Options** dialog box, click **Advanced**. Under the **Formulas** section set the multithreaded calculation options.
+To control multithreaded calculation options, on the **File** tab, click **Options**. In the **Excel Options** dialog box, click **Advanced**. Under the **Formulas** section, set the multithreaded calculation options.
 
 ### Increased memory capacity and limits
 <a name="MultithreadedCalculation"> </a>
@@ -161,7 +165,7 @@ Starting in Excel 2007, these limits were removed. Subject to the overall 2-GB W
 ### Workbook.ForceFullCalculation
 <a name="MultithreadedCalculation"> </a>
 
-You can set the new workbook property, **Workbook.ForceFullCalculation**, programmatically by using the Excel object model. When this property is set to **True**, dependencies are not loaded at open, and every calculation of the workbook is a full calculation.
+You can set the new workbook property **Workbook.ForceFullCalculation** programmatically by using the Excel object model. When this property is set to **True**, dependencies are not loaded at open, and every calculation of the workbook is a full calculation.
  
 If you have a workbook that has so many complex dependencies that loading the dependencies at workbook open takes a long time or recalculation takes longer than full calculation, you can use this property to force Excel to skip loading the dependencies and always use full calculation.
 
@@ -171,15 +175,14 @@ If you have a workbook that has so many complex dependencies that loading the de
 Starting in Excel 2007, Excel has three new functions that you can use to **SUM**, **COUNT**, or **AVERAGE** using multiple criteria. In earlier versions of Excel, you had to use slow-calculating, hard-to-understand array formulas or **SUMPRODUCT** to use multiple criteria. The new functions are designed to be easy to use and fast to calculate.
 
 ```
-
-SUMIFS(sum_range, criteria_range1, criteria1 [,criteria_range2, _
-    criteria2...])
-COUNTIFS(criteria_range1, criteria1 [,criteria_range2, criteria2...])
-AVERAGEIFS(average_range, criteria_range1, criteria1 _
-    [,criteria_range2, criteria2...])
+   SUMIFS(sum_range, criteria_range1, criteria1 [,criteria_range2, _
+       criteria2...])
+   COUNTIFS(criteria_range1, criteria1 [,criteria_range2, criteria2...])
+   AVERAGEIFS(average_range, criteria_range1, criteria1 _
+       [,criteria_range2, criteria2...])
 ```
 
-These functions handle full column references ($A:$A) efficiently by using special handling for the empty cells. The criteria that evaluates text cells can use the wildcard characters (*) (any set of characters) and (?) (any single character). Because these functions are so much faster to calculate than equivalent array formulas, use them to replace your array formulas when possible.
+These functions handle full column references ($A:$A) efficiently by using special handling for the empty cells. The criteria that evaluates text cells can use the wildcard characters (* - any set of characters and ? - any single character). Because these functions are so much faster to calculate than equivalent array formulas, use them to replace your array formulas when possible.
 
 ### IFERROR
 <a name="MultithreadedCalculation"> </a>
@@ -247,7 +250,7 @@ If you can ensure that any dependencies throughout a block of formulas always re
 ### Excel Services
 <a name="MultithreadedCalculation"> </a>
 
-Starting in Excel 2007, Excel Services is a new server technology that is included in SharePoint Server. You can use Excel Services to offload a time-consuming calculation from a desktop to a more powerful (and expensive) server. By using multithreaded calculation on an eight-core server could produce major performance gains. For more information about Excel Services, see  [Excel Services in SharePoint Server 2010](http://msdn.microsoft.com/library/11433629-68f9-4ac6-8905-debad1766ed4%28Office.14%29.aspx).
+Starting in Excel 2007, Excel Services is a new server technology that is included in SharePoint Server. You can use Excel Services to offload a time-consuming calculation from a desktop to a more powerful (and expensive) server. Using multithreaded calculation on an eight-core server could produce major performance gains. For more information about Excel Services, see  [Excel Services in SharePoint Server 2010](http://msdn.microsoft.com/library/11433629-68f9-4ac6-8905-debad1766ed4%28Office.14%29.aspx).
 
 ## Conclusion
 <a name="office2007excelperf_Conclusion"> </a>
@@ -257,13 +260,13 @@ Excel 2010 and Excel 2007 introduce performance and limitation improvements in s
 ## About the authors
 <a name="xlAboutAuthors"> </a>
 
-Charles Williams founded Decision Models in 1996 to provide advanced consultancy, decision support solutions, and tools that are based on Microsoft Excel and relational databases. Charles is the author of FastExcel, the widely used Excel performance profiler and performance tool set, and co-author of Name Manager, the popular utility for managing defined names. For more information about Excel calculation performance and methods, memory usage, and VBA user-defined functions, visit the  [Decision Models](http://www.decisionmodels.com/) website.
+Charles Williams founded Decision Models in 1996 to provide advanced consultancy, decision support solutions, and tools that are based on Microsoft Excel and relational databases. Charles is the author of *FastExcel*, the widely used Excel performance profiler and performance tool set, and co-author of *Name Manager*, the popular utility for managing defined names. For more information about Excel calculation performance and methods, memory usage, and VBA user-defined functions, visit the  [Decision Models](http://www.decisionmodels.com/) website.
 
-This technical article was produced in partnership with  [A23 Consulting](http://www.a23consulting.com/).
+This technical article was produced in partnership with [A23 Consulting](http://www.a23consulting.com/).
 
-Allison Bokone, Microsoft Corporation, is a programming writer in the Office team.
+Allison Bokone, Microsoft Corporation, is a programming writer on the Office team.
 
-Chad Rothschiller, Microsoft Corporation, is a program manager in the Office team.
+Chad Rothschiller, Microsoft Corporation, is a program manager on the Office team.
 
 ## Additional resources
 <a name="office2007excelperf_AdditionalResources"> </a>
