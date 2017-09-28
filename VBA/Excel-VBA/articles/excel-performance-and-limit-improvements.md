@@ -29,7 +29,7 @@ The following sections discuss some features that are introduced in Excel 2010 t
 
 ### Feature Improvements
 
-Based on user feedback about Excel 2007, Excel 2010 introduces improvements to several features.
+Based on user feedback about Excel 2007, Excel 2010 introduces improvements to several features. 
   
     
     
