@@ -1,6 +1,7 @@
 
-# Excel Performance: Performance and Limit Improvements
- **Summary:** This article discusses performance improvements in Microsoft Excel 2010 and Microsoft Office Excel 2007. This article is one of three companion articles about techniques that you can use to improve performance in Excel as you design and create worksheets.For more information about how to improve performance in Excel, see  [Excel Performance: Improving Calculation Performance](excel-improving-calcuation-performance.md) and [Excel Performance: Tips for Optimizing Performance Obstructions](excel-tips-for-optimizing-performance-obstructions.md).
+# Excel performance: Performance and limit improvements
+
+**Summary:** This article discusses performance improvements in Microsoft Excel 2010 and Microsoft Office Excel 2007. This article is one of three companion articles about techniques that you can use to improve performance in Excel as you design and create worksheets.For more information about how to improve performance in Excel, see  [Excel Performance: Improving Calculation Performance](excel-improving-calcuation-performance.md) and [Excel Performance: Tips for Optimizing Performance Obstructions](excel-tips-for-optimizing-performance-obstructions.md).
 
 **Applies to:** Excel | Excel 2010 | Office 2010 | SharePoint Server 2010 | VBA
 
