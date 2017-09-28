@@ -708,7 +708,7 @@ Allison Bokone, Microsoft Corporation, is a programming writer on the Office tea
 
 Chad Rothschiller, Microsoft Corporation, is a program manager on the Office team.
 
-## Additional resources
+## Additional resources 
 <a name="office2007excelperf_AdditionalResources"> </a>
 
 For more information about Excel 2010, see the following resources:
